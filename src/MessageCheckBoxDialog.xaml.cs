@@ -31,21 +31,21 @@ namespace CommonPlugin
         {
         }
 
-        public MessageCheckBoxDialog(Type locClass, string pluginPrefix, string messageBoxText, string checkBoxText, MessageBoxButton button, MessageBoxImage icon, MessageDialogSettings messageDialogSettings)
+        public MessageCheckBoxDialog(string messageBoxText, string checkBoxText, MessageBoxButton button, MessageBoxImage icon, MessageDialogSettings messageDialogSettings)
         {
             InitializeComponent();
             DialogSettings = messageDialogSettings;
             switch (button)
             {
                 case MessageBoxButton.OK:
-                    OkBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteOKLabel");
+                    OkBtn.Content = ResourceProvider.GetString("LOCOKLabel");
                     ShowOkBtn = true;
                     OkBtn.IsDefault = true;
                     OkBtn.Focus();
                     break;
                 case MessageBoxButton.YesNo:
-                    YesBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteYesLabel");
-                    NoBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteNoLabel");
+                    YesBtn.Content = ResourceProvider.GetString("LOCYesLabel");
+                    NoBtn.Content = ResourceProvider.GetString("LOCNoLabel");
                     ShowYesBtn = true;
                     YesBtn.Focus();
                     YesBtn.IsDefault = true;
@@ -53,7 +53,7 @@ namespace CommonPlugin
                     NoBtn.IsCancel = true;
                     break;
                 default:
-                    OkBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteOKLabel");
+                    OkBtn.Content = ResourceProvider.GetString("LOCOKLabel");
                     ShowOkBtn = true;
                     OkBtn.Focus();
                     OkBtn.IsDefault = true;
@@ -114,7 +114,7 @@ namespace CommonPlugin
             DialogSettings.CheckboxChecked = (bool)Chk.IsChecked;
         }
 
-        public static MessageDialogSettings ShowMessage(Type locClass, string pluginPrefix, string title, string message, string checkBoxText, MessageBoxButton buttonType, MessageBoxImage icon)
+        public static MessageDialogSettings ShowMessage(string title, string message, string checkBoxText, MessageBoxButton buttonType, MessageBoxImage icon)
         {
             MessageDialogSettings messageDialogSettings = new MessageDialogSettings();
             Window window = null;
@@ -137,7 +137,7 @@ namespace CommonPlugin
             }
             window.Title = title;
             window.Owner = playniteAPI.Dialogs.GetCurrentAppWindow();
-            window.Content = new MessageCheckBoxDialog(locClass, pluginPrefix, message, checkBoxText, buttonType, icon, messageDialogSettings);
+            window.Content = new MessageCheckBoxDialog(message, checkBoxText, buttonType, icon, messageDialogSettings);
             window.SizeToContent = SizeToContent.WidthAndHeight;
             window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = window.ShowDialog();

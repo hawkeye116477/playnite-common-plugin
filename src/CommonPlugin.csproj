@@ -109,7 +109,6 @@
     <Compile Include="NumericInput.xaml.cs">
       <DependentUpon>NumericInput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PropertyExtension.cs" />
     <Compile Include="RelativePath.cs" />
   </ItemGroup>
   <ItemGroup>

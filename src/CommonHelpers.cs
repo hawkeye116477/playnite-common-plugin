@@ -11,14 +11,10 @@ namespace CommonPlugin
     public class CommonHelpers
     {
         public Plugin plugin { get; set; }
-        public Type locClass { get; set; }
-        public string pluginPrefix { get; set; }
 
-        public CommonHelpers(Plugin plugin, Type locClass, string pluginPrefix)
+        public CommonHelpers(Plugin plugin)
         {
             this.plugin = plugin;
-            this.locClass = locClass;
-            this.pluginPrefix = pluginPrefix;
         }
 
         public static string FormatSize(double size, string unit = "B", bool toBits = false)
@@ -58,7 +54,7 @@ namespace CommonPlugin
             }
         }
 
-        public bool IsDirectoryWritable(string folderPath)
+        public static bool IsDirectoryWritable(string folderPath, string permissionErrorString)
         {
             try
             {
@@ -72,7 +68,7 @@ namespace CommonPlugin
             catch (UnauthorizedAccessException)
             {
                 var playniteAPI = API.Instance;
-                playniteAPI.Dialogs.ShowErrorMessage((string)locClass.GetPropertyValue($"LOC{pluginPrefix}PermissionError"));
+                playniteAPI.Dialogs.ShowErrorMessage(ResourceProvider.GetString(permissionErrorString));
                 return false;
             }
             catch (Exception ex)
