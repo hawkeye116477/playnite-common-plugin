@@ -38,14 +38,14 @@ namespace CommonPlugin
             switch (button)
             {
                 case MessageBoxButton.OK:
-                    OkBtn.Content = locClass.GetPropertyValue($"{pluginPrefix}3P_PlayniteOKLabel");
+                    OkBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteOKLabel");
                     ShowOkBtn = true;
                     OkBtn.IsDefault = true;
                     OkBtn.Focus();
                     break;
                 case MessageBoxButton.YesNo:
-                    YesBtn.Content = locClass.GetPropertyValue($"{pluginPrefix}3P_PlayniteYesLabel");
-                    NoBtn.Content = locClass.GetPropertyValue($"{pluginPrefix}3P_PlayniteNoLabel");
+                    YesBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteYesLabel");
+                    NoBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteNoLabel");
                     ShowYesBtn = true;
                     YesBtn.Focus();
                     YesBtn.IsDefault = true;
@@ -53,7 +53,7 @@ namespace CommonPlugin
                     NoBtn.IsCancel = true;
                     break;
                 default:
-                    OkBtn.Content = locClass.GetPropertyValue($"{pluginPrefix}3P_PlayniteOKLabel");
+                    OkBtn.Content = locClass.GetPropertyValue($"LOC{pluginPrefix}3P_PlayniteOKLabel");
                     ShowOkBtn = true;
                     OkBtn.Focus();
                     OkBtn.IsDefault = true;

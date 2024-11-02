@@ -1,7 +1,6 @@
-﻿using CliWrap;
-using Playnite.SDK;
+﻿using Playnite.SDK;
 
-namespace CommonPlugin
+namespace CliWrap
 {
     internal static class CliWrapCommandExtensions
     {
