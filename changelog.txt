@@ -1,0 +1,2 @@
+* Fixed potential problems which might occur during repairing and installation of games
+* Enabled playtime sync by default if it's also enabled in Playnite's settings
