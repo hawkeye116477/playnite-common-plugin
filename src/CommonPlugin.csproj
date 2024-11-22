@@ -110,6 +110,7 @@
       <DependentUpon>NumericInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="RelativePath.cs" />
+    <Compile Include="SplitOutsideQuotesExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonHelpers.cs" />
