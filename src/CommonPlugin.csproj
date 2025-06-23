@@ -123,6 +123,9 @@
     <Compile Include="..\third_party\PlayniteExtensions\PlayniteRepo\source\playnite\Common\Extensions\StringExtensions.cs">
       <Link>Shared\Playnite\StringExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\third_party\PlayniteExtensions\PlayniteRepo\source\Playnite\Common\Xaml.cs">
+      <Link>Shared\Playnite\Xaml.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
