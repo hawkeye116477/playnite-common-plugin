@@ -124,8 +124,7 @@ namespace CommonPlugin
             {
                 var resDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Resources");
                 var stylesName = "NormalStyles.xaml";
-                var playniteAPI = API.Instance;
-                if (playniteAPI.ApplicationInfo.Mode == ApplicationMode.Fullscreen)
+                if (plugin.PlayniteApi.ApplicationInfo.Mode == ApplicationMode.Fullscreen)
                 {
                     stylesName = "FullScreenStyles.xaml";
                 }
