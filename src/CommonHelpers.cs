@@ -132,5 +132,15 @@ namespace CommonPlugin
                 dictionaries.Add(res);
             }
         }
+
+        public static void SetControlBackground(DependencyObject windowDependency)
+        {
+            var playniteAPI = API.Instance;
+            if (playniteAPI.ApplicationInfo.Mode == ApplicationMode.Fullscreen)
+            {
+                var thisWindow = Window.GetWindow(windowDependency);
+                thisWindow.Background = (System.Windows.Media.Brush)ResourceProvider.GetResource("ControlBackgroundBrush");
+            }
+        }
     }
 }
