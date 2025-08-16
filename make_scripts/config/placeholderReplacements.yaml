@@ -1,0 +1,65 @@
+LOCLegendaryUninstallGameConfirm:
+  first: gameTitle
+
+LOCLegendaryVerifyingLargeFile:
+  first: fileName
+  second: progress
+
+LOCLegendarySyncing:
+  first: gameTitle
+
+LOCLegendarySyncError:
+  first: gameTitle
+
+LOCLegendaryImportingGame:
+  first: gameTitle
+
+LOCLegendaryGameImportFailure:
+  first: reason
+
+LOCLegendaryRemoveEntryConfirm:
+  first: entryName
+
+LOCLegendaryNewVersionAvailable:
+  first: appName
+  second: appVersion
+
+LOCLegendaryUploadingPlaytime:
+  first: gameTitle
+
+LOCLegendaryUploadPlaytimeError:
+  first: gameTitle
+
+LOCLegendaryMoveConfirm:
+  first: appName
+  second: path
+
+LOCLegendaryMovingGame:
+  first: appName
+  second: path
+
+LOCLegendaryMoveGameSuccess:
+  first: appName
+  second: path
+
+LOCLegendaryMoveGameError:
+  first: appName
+  second: path
+
+LOCLegendarySignedInAs:
+  first: userName
+
+LOCLegendaryUninstallSuccess:
+  first: appName
+
+LOCLegendaryUninstallSuccessOther:
+  first: appName
+
+LOCLegendaryUninstallErrorOther:
+  first: appName
+
+LOCLegendaryDownloadAlreadyExists:
+  first: appName
+
+LOCLegendaryDownloadAlreadyExistsOther:
+  first: appName

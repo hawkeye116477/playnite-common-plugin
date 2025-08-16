@@ -43,6 +43,18 @@
     <Reference Include="CliWrap, Version=3.6.7.0, Culture=neutral, PublicKeyToken=1c4a4fc2d6886e5a, processorArchitecture=MSIL">
       <HintPath>packages\CliWrap.3.6.7\lib\net462\CliWrap.dll</HintPath>
     </Reference>
+    <Reference Include="IndexRange, Version=1.0.2.0, Culture=neutral, PublicKeyToken=35e6a3c4212514c6, processorArchitecture=MSIL">
+      <HintPath>packages\IndexRange.1.0.2\lib\net45\IndexRange.dll</HintPath>
+    </Reference>
+    <Reference Include="Linguini.Bundle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Linguini.Bundle.0.3.2\lib\net461\Linguini.Bundle.dll</HintPath>
+    </Reference>
+    <Reference Include="Linguini.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Linguini.Shared.0.3.0\lib\net461\Linguini.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Linguini.Syntax, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Linguini.Syntax.0.3.0\lib\net461\Linguini.Syntax.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -69,8 +81,8 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.6.1\lib\net462\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -103,6 +115,7 @@
     <Compile Include="Enums\DownloadAction.cs" />
     <Compile Include="Enums\DownloadCompleteAction.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
+    <Compile Include="LocalizationManager.cs" />
     <Compile Include="MessageCheckBoxDialog.xaml.cs">
       <DependentUpon>MessageCheckBoxDialog.xaml</DependentUpon>
     </Compile>
@@ -111,13 +124,13 @@
     </Compile>
     <Compile Include="RelativePath.cs" />
     <Compile Include="SplitOutsideQuotesExtensions.cs" />
+    <Compile Include="System.Runtime.CompilerServices.RuntimeHelpers\GetSubArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup Label="compileInclude3p">
     <Compile Include="..\third_party\PlayniteExtensions\PlayniteRepo\source\playnite\Common\Extensions\StringExtensions.cs">
@@ -139,6 +152,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Include="packages.config" />
     <None Include="Resources\FullScreenStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
