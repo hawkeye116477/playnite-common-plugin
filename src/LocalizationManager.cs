@@ -19,14 +19,18 @@ namespace CommonPlugin
         public static LocalizationManager Instance => _instance;
         private FluentBundle _bundle;
         private Dictionary<string, IFluentType> _commonArgs = new Dictionary<string, IFluentType>();
+        private string fallbackLanguage = "en-US";
 
         private LocalizationManager()
         {
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+            {
+                SetLanguage(fallbackLanguage);
+            }
         }
 
         private FluentBundle MakeBundle(string language)
         {
-            string fallbackLanguage = "en-US";
             var resources = new List<string>
             {
                 ReadFtl(fallbackLanguage)
