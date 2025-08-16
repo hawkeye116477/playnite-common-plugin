@@ -116,6 +116,7 @@
     <Compile Include="Enums\DownloadCompleteAction.cs" />
     <Compile Include="Enums\DownloadStatus.cs" />
     <Compile Include="LocalizationManager.cs" />
+    <Compile Include="LocalizeExtension.cs" />
     <Compile Include="MessageCheckBoxDialog.xaml.cs">
       <DependentUpon>MessageCheckBoxDialog.xaml</DependentUpon>
     </Compile>

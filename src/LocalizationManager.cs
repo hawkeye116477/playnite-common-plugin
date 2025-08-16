@@ -4,6 +4,7 @@ using Linguini.Shared.Types.Bundle;
 using Playnite.SDK;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -40,7 +41,17 @@ namespace CommonPlugin
 
         private string ReadFtl(string language)
         {
-            var locDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Localization", language);
+            string baseDir;
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+            {
+                baseDir = Environment.CurrentDirectory;
+            }
+            else
+            {
+                baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            }
+
+            var locDir = Path.Combine(baseDir, "Localization", language);
             if (!Directory.Exists(locDir))
             {
                 return string.Empty;
