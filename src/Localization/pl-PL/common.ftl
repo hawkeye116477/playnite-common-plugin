@@ -100,7 +100,6 @@ common-launcher-settings = Modyfikuj ustawienia uruchamiania
 common-alternative-exe = Alternatywny plik wykonywalny
 common-check-all-dlcs = Zaznacz wszystkie dodatki (DLC)
 common-check-all-content = Zaznacz wszystko
-common-manual-sync-saves = Ręczna synchronizacja zapisów
 common-move = Przenieś
 common-move-confirm = Czy na pewno chcesz przenieść grę { $appName } do „{ $path }”? To może zająć sporo czasu.
 common-moving-game = Przenoszenie gry { $appName } do „{ $path }”...

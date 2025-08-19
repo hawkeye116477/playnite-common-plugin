@@ -100,7 +100,6 @@ common-launcher-settings = Başlatma ayarlarını değiştir
 common-alternative-exe = Alternatif yürütülebilir dosya
 common-check-all-dlcs = Tüm DLC içerikleri denetle
 common-check-all-content = Tümünü denetle
-common-manual-sync-saves = El ile eşitlenen kayıtlar
 common-move = Taşı
 common-move-confirm = { $appName } öğesini "{ $path }" konumuna taşımak istediğinizden emin misiniz? Bu uzun zaman alabilir.
 common-moving-game = { $appName }, "{ $path }" öğesine taşınıyor...

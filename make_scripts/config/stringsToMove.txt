@@ -6,7 +6,7 @@ common-cloud-saves
 common-cloud-saves-not-supported
 common-download
 common-force-action
-common-manual-syncsaves
+common-manual-sync-saves
 common-save-path
 common-sync
 common-sync-game-saves

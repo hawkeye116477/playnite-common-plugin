@@ -35,6 +35,7 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
         print("No keys to move. Exiting.")
         return
 
+    # Find all language subdirectories within the base directory
     language_dirs = glob.glob(os.path.join(base_dir, '*/'))
 
     if not language_dirs:
@@ -85,10 +86,11 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
 
         # Append the moved entries to the destination resource
         if moved_entries:
-            # Add a blank line separator if the destination file is not empty
-            if destination_resource.body and destination_resource.body[-1].type != ast.Junk and \
-               destination_resource.body[-1].type != ast.BlankLine:
-                destination_resource.body.append(ast.BlankLine())
+            # Check the last entry in the destination resource to add a blank line separator
+            if destination_resource.body:
+                last_entry = destination_resource.body[-1]
+                if not isinstance(last_entry, ast.Junk):
+                    destination_resource.body.append(ast.Junk(content="\n\n"))
             
             destination_resource.body.extend(moved_entries)
             serialized_destination = serializer.serialize(destination_resource)
