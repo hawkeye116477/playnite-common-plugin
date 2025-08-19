@@ -4,8 +4,8 @@ api_token_env: CROWDIN_TOKEN
 
 files: [
   {
-    "source": "/src/Localization/%locale%/*.ftl",
-    "translation": "/src/Localization/%locale%/%original_file_name%	",
+    "source": "/src/Localization/en-US/*.ftl",
+    "translation": "/src/Localization/%locale%/%original_file_name%",
     "escape_quotes": 3,
     "escape_special_characters": 0,
   }
