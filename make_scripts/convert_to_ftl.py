@@ -22,8 +22,11 @@ NSMAP = {None: xmlns,
 
 def convertToFtl(plugin_prefix, src_path, config_path, loc_path, convert_csharp = True, convert_3p = True, comment = ""):
     os.chdir(src_path)
-    with open(pj(config_path, "placeholderReplacements.yaml"), 'r') as r_file:
-        replacement_strings = yaml.safe_load(r_file)
+    placeholder_file = pj(config_path, "placeholderReplacements.yaml")
+    replacement_strings = {}
+    if os.path.isfile(placeholder_file):
+        with open(placeholder_file, 'r') as r_file:
+            replacement_strings = yaml.safe_load(r_file)
 
     key_to_prefix_map = {}
 
@@ -48,7 +51,7 @@ def convertToFtl(plugin_prefix, src_path, config_path, loc_path, convert_csharp 
                 key_text = child.text
                 if not key_text:
                     key_text = ""
-                if key not in replacement_strings:
+                if "{0}" in key_text and key not in replacement_strings:
                     replacement_strings[key] = {}
                     replacement_strings[key]['first'] = "firstReplacement"
                     replacement_strings[key]['second'] = "secondReplacement"
@@ -130,7 +133,7 @@ def convertToFtl(plugin_prefix, src_path, config_path, loc_path, convert_csharp 
     dynamic_resource_pattern = re.compile(r'\{DynamicResource (LOC'+plugin_prefix+r'[^}]+)\}')
 
     if not convert_csharp:
-        exit(0)
+        return ""
 
     for root, _, files in os.walk(src_path):
         if os.path.basename(root) == "Localization":
