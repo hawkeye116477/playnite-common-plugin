@@ -20,93 +20,100 @@ NSMAP = {None: xmlns,
         "x":  xmlns_x,
         "common": xmlns_common}
 
+key_to_prefix_map = {}
+replacement_strings = {}
+
+def convertXamlStringToFtl(xaml_string, old_prefix = "Common", new_prefix = "", replacement_strings = {}):
+    serialized_output = ""
+    translations = {}
+    for child in xaml_string.getroot():
+        key = child.get(ET.QName(xmlns_x, "Key"))
+        if "3P" in key:
+            new_prefix = "ThirdParty"
+        key_to_prefix_map[key] = new_prefix
+        key_text = child.text
+        if not key_text:
+            key_text = ""
+        if "{0}" in key_text and key not in replacement_strings:
+            replacement_strings[key] = {}
+            replacement_strings[key]['first'] = "var0"
+            replacement_strings[key]['second'] = "var1"
+        if "{0}" in key_text:
+            key_text = key_text.replace("{0}", f'{{{replacement_strings[key]['first']}}}')
+        if "{1}" in key_text:
+            key_text = key_text.replace("{1}", f"{{{replacement_strings[key]['second']}}}")
+        key_text = key_text.replace("{AppName}", "{LauncherName}")
+        key_text = key_text.replace("{SourceName}", "{UpdatesSourceName}")
+        key_text = re.sub(r'\{([a-zA-Z0-9_-]+)\}', lambda m: f'{{ ${m.group(1)[0].lower() + m.group(1)[1:]} }}', key_text)
+
+        new_key = key
+        if "3P" in new_key:
+            new_key = new_key.replace(f"LOC{old_prefix}3P_", "LOCThirdParty")
+        else:
+            new_key = new_key.replace(f"LOC{old_prefix}", f"LOC{new_prefix}")
+        new_key = new_key.replace("LOC", "")
+
+        new_key = new_key.replace("Other", "")
+        new_key = re.sub(r'([a-z0-9])([A-Z])|([A-Z])([a-z])', r'\1-\2\3\4', new_key)
+        new_key = new_key.lower().lstrip('-')
+    
+        if new_key not in translations:
+            translations[new_key] = {'is_plural': False, 'one': None, 'other': None}
+        if key.endswith("Other"):
+            translations[new_key]['is_plural'] = True
+            translations[new_key]['other'] = key_text
+        else:
+            translations[new_key]['one'] = key_text
+    
+    ftl_string = ""
+    for ftl_id, data in translations.items():
+        if data['is_plural']:
+            one_variant = data['one']
+            other_variant = data['other']
+    
+            ftl_string += f"""
+{ftl_id} =
+{{ $count ->
+"""
+            if one_variant != None:
+                ftl_string += f"""
+[one] {one_variant}
+"""
+            ftl_string += f"""
+*[other] {other_variant}
+}}
+""" 
+        else:
+            value = data['one']
+            ftl_string += f"""
+{ftl_id} = {value}
+"""
+    if ftl_string != "":
+        ftl_resource_ast = FluentParse(ftl_string)
+        serialized_output = FluentSerialize(ftl_resource_ast)
+    return serialized_output
+
 def convertToFtl(plugin_prefix, src_path, config_path, loc_path, convert_csharp = True, convert_3p = True, comment = ""):
     os.chdir(src_path)
     placeholder_file = pj(config_path, "placeholderReplacements.yaml")
-    replacement_strings = {}
     if os.path.isfile(placeholder_file):
         with open(placeholder_file, 'r') as r_file:
             replacement_strings = yaml.safe_load(r_file)
 
-    key_to_prefix_map = {}
-
     for root, dirs, files in os.walk(loc_path):
         for filename in files:
+            filename_without_extension = filename.replace(".xaml", "")
+            a_old_prefix = plugin_prefix
+            a_new_prefix = "Common"
+            if "-" in filename:
+                a_new_prefix = filename_without_extension.split('-')[1].capitalize()
             file_path  = os.path.join(root, filename)
             if ".ftl" in filename:
                 continue
-            translations = {}
             loc = ET.parse(file_path)
-            xml_root = ET.Element("ResourceDictionary", nsmap=NSMAP)
-            xml_doc = ET.ElementTree(xml_root)
-            for child in loc.getroot():
-                key = child.get(ET.QName(xmlns_x, "Key"))
-                prefix = "Common"
-                filename_without_extension = filename.replace(".xaml", "")
-                if "-" in filename:
-                    prefix = filename_without_extension.split('-')[1].capitalize()
-                if "3P" in key:
-                    prefix = "ThirdParty"
-                key_to_prefix_map[key] = prefix
-                key_text = child.text
-                if not key_text:
-                    key_text = ""
-                if "{0}" in key_text and key not in replacement_strings:
-                    replacement_strings[key] = {}
-                    replacement_strings[key]['first'] = "firstReplacement"
-                    replacement_strings[key]['second'] = "secondReplacement"
-                if "{0}" in key_text:
-                    key_text = key_text.replace("{0}", f'{{{replacement_strings[key]['first']}}}')
-                if "{1}" in key_text:
-                    key_text = key_text.replace("{1}", f"{{{replacement_strings[key]['second']}}}")
-                key_text = key_text.replace("{AppName}", "{LauncherName}")
-                key_text = key_text.replace("{SourceName}", "{UpdatesSourceName}")
-                key_text = re.sub(r'\{([a-zA-Z0-9_-]+)\}', lambda m: f'{{ ${m.group(1)[0].lower() + m.group(1)[1:]} }}', key_text)
+            ftl_out = convertXamlStringToFtl(loc, a_old_prefix, a_new_prefix, replacement_strings)
 
-                new_key = key.replace("LOC", "")
-                if not "-" in filename:
-                    new_key = new_key.replace(plugin_prefix, "Common")
-                if "3P" in new_key:
-                    new_key = new_key.replace(f"{plugin_prefix}3P_", "ThirdParty")
-
-                new_key = new_key.replace("Other", "")
-                new_key = re.sub(r'([a-z0-9])([A-Z])|([A-Z])([a-z])', r'\1-\2\3\4', new_key)
-                new_key = new_key.lower().lstrip('-')
-    
-                if new_key not in translations:
-                    translations[new_key] = {'is_plural': False, 'one': None, 'other': None}
-                if key.endswith("Other"):
-                    translations[new_key]['is_plural'] = True
-                    translations[new_key]['other'] = key_text
-                else:
-                    translations[new_key]['one'] = key_text
-    
-            ftl_string = ""
-            for ftl_id, data in translations.items():
-                if data['is_plural']:
-                    one_variant = data['one']
-                    other_variant = data['other']
-    
-                    ftl_string += f"""
-{ftl_id} =
-{{ $count ->
-"""
-                    if one_variant != None:
-                        ftl_string += f"""
-[one] {one_variant}
-"""
-                    ftl_string += f"""
-*[other] {other_variant}
-}}
-""" 
-                else:
-                    value = data['one']
-                    ftl_string += f"""
-{ftl_id} = {value}
-"""
-            if ftl_string != "":
-                ftl_resource_ast = FluentParse(ftl_string)
-                serialized_output = FluentSerialize(ftl_resource_ast)
+            if ftl_out != "":
                 filename_without_extension = filename.replace(".xaml", "")
                 ftl_dir = filename_without_extension
                 ftl_filename = "common"
@@ -122,11 +129,10 @@ def convertToFtl(plugin_prefix, src_path, config_path, loc_path, convert_csharp 
                 if not os.path.exists(full_ftl_dir):
                     os.makedirs(full_ftl_dir)
                 if comment:
-                    serialized_output = comment + serialized_output
-                if serialized_output:
-                    with open(pj(full_ftl_dir, ftl_filename), 'w', encoding='utf-8') as ftl_file:
-                        ftl_file.write(serialized_output)
-                    print(f"File {ftl_dir}\\{ftl_filename} was succesfully generated.")
+                    ftl_out = comment + ftl_out
+                with open(pj(full_ftl_dir, ftl_filename), 'w', encoding='utf-8') as ftl_file:
+                    ftl_file.write(ftl_out)
+                print(f"File {ftl_dir}\\{ftl_filename} was succesfully generated.")
 
     
     NSMAP["common"] = "clr-namespace:CommonPlugin"
