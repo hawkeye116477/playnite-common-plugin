@@ -56,10 +56,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         for filename in files:
             full_file_path = pj(root, filename)
             if os.path.getsize(full_file_path) > 0:
+                relative_path = os.path.relpath(full_file_path, shared_loc_path)
+                destination_file_path = pj(src_path, "Localization", relative_path)
+                destination_subdir = os.path.dirname(destination_file_path)
+                if not os.path.exists(destination_subdir):
+                    os.makedirs(destination_subdir)
                 if "common" in filename:
-                    relative_path = os.path.relpath(full_file_path, shared_loc_path)
-                    destination_file_path = pj(src_path, "Localization", relative_path)
-                    destination_subdir = os.path.dirname(destination_file_path)
-                    if not os.path.exists(destination_subdir):
-                        os.makedirs(destination_subdir)
                     shutil.copy(full_file_path, destination_file_path)
