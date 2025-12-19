@@ -124,6 +124,7 @@
       <DependentUpon>NumericInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="RelativePath.cs" />
+    <Compile Include="RetryHandler.cs" />
     <Compile Include="SplitOutsideQuotesExtensions.cs" />
     <Compile Include="System.Runtime.CompilerServices.RuntimeHelpers\GetSubArray.cs" />
   </ItemGroup>
