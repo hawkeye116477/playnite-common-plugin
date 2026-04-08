@@ -48,6 +48,8 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
         source_file = os.path.join(lang_dir, source_filename)
         lang_folder = Path(lang_dir).name
         
+        if destination_base_dir is None:
+            destination_base_dir = base_dir
         destination_final_dir = os.path.join(destination_base_dir, lang_folder)
         Path(destination_final_dir).mkdir(parents=True, exist_ok=True)
         destination_file = os.path.join(destination_final_dir, f"{destination_filename}.ftl")
@@ -117,7 +119,7 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Move and optionally rename Fluent keys between files across language directories.")
     parser.add_argument("--base-dir", default=".", help="Base directory containing language folders.")
-    parser.add_argument("--destination-base-dir", default="", help="Destination base directory containing language folders.")
+    parser.add_argument("--destination-base-dir", default=None, help="Destination base directory containing language folders.")
     parser.add_argument("--strings-to-move-file", required=True, help="Path to the file with keys to move.")
     parser.add_argument("--source-filename", default="common.ftl", help="Source FTL filename to process in each folder.")
     parser.add_argument("--destination-filename", default="new_component.ftl", help="Destination FTL filename where keys will be moved.")
