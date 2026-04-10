@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 from fluent.syntax import ast, FluentParser, FluentSerializer
 
-def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filename, destination_filename, destination_base_dir, rename_keys):
+def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filename, destination_filename, destination_base_dir, rename_keys, new_prefix):
     """
     Moves and optionally renames Fluent keys from a source file to a destination file across multiple language directories.
     
@@ -15,6 +15,7 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
         destination_filename (str): The name of the destination FTL file.
         destination_base_dir (str): Destination base directory containing language folders.
         rename_keys (bool): Whether to rename the keys during the move.
+        new_prefix (str): New prefix for keys
     """
     parser = FluentParser()
     serializer = FluentSerializer()
@@ -29,6 +30,8 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
     if rename_keys:
         source_prefix = os.path.splitext(source_filename)[0]
         destination_prefix = os.path.splitext(destination_filename)[0]
+        if new_prefix is not None:
+            destination_prefix = new_prefix
 
     with open(strings_to_move_file, 'r', encoding='utf-8') as f:
         keys_to_move = {line.strip() for line in f if line.strip()}
@@ -52,7 +55,7 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
             destination_base_dir = base_dir
         destination_final_dir = os.path.join(destination_base_dir, lang_folder)
         Path(destination_final_dir).mkdir(parents=True, exist_ok=True)
-        destination_file = os.path.join(destination_final_dir, f"{destination_filename}.ftl")
+        destination_file = os.path.join(destination_final_dir, f"{destination_filename}")
 
         if not os.path.exists(source_file):
             print(f"Skipping {lang_dir}: '{source_filename}' not found.")
@@ -124,6 +127,7 @@ if __name__ == "__main__":
     parser.add_argument("--source-filename", default="common.ftl", help="Source FTL filename to process in each folder.")
     parser.add_argument("--destination-filename", default="new_component.ftl", help="Destination FTL filename where keys will be moved.")
     parser.add_argument("--rename", action="store_true", help="Enable renaming of keys based on file prefixes.")
+    parser.add_argument("--new-prefix", help="New prefix.", default=None)
     
     args = parser.parse_args()
     
@@ -133,5 +137,6 @@ if __name__ == "__main__":
         source_filename=args.source_filename,
         destination_filename=args.destination_filename,
         destination_base_dir=args.destination_base_dir,
-        rename_keys=args.rename
+        rename_keys=args.new_prefix,
+        new_prefix=args.new_prefix
     )
