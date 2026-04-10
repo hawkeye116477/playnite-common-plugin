@@ -20,9 +20,10 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
     parser = FluentParser()
     serializer = FluentSerializer()
 
-    if not os.path.exists(strings_to_move_file):
-        print(f"Error: The strings list file '{strings_to_move_file}' does not exist.")
-        return
+    if not strings_to_move_file is None:
+        if not os.path.exists(strings_to_move_file):
+            print(f"Error: The strings list file '{strings_to_move_file}' does not exist.")
+            return
 
     # Extract prefixes from filenames for renaming if the option is enabled
     source_prefix = None
@@ -33,12 +34,15 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
         if new_prefix is not None:
             destination_prefix = new_prefix
 
-    with open(strings_to_move_file, 'r', encoding='utf-8') as f:
-        keys_to_move = {line.strip() for line in f if line.strip()}
+    if not strings_to_move_file is None:
+        with open(strings_to_move_file, 'r', encoding='utf-8') as f:
+            keys_to_move = {line.strip() for line in f if line.strip()}
 
-    if not keys_to_move:
-        print("No keys to move. Exiting.")
-        return
+        if not keys_to_move:
+            print("No keys to move. Exiting.")
+            return
+    else:
+        keys_to_move = "all"
 
     # Find all language subdirectories within the base directory
     language_dirs = glob.glob(os.path.join(base_dir, '*/'))
@@ -75,7 +79,7 @@ def move_and_rename_fluent_strings(base_dir, strings_to_move_file, source_filena
         # Iterate through the AST to identify entries to move and optionally rename
         for entry in source_resource.body:
             if isinstance(entry, (ast.Message, ast.Term)):
-                if entry.id.name in keys_to_move:
+                if keys_to_move == "all" or entry.id.name in keys_to_move:
                     if rename_keys:
                         old_id = entry.id.name
                         new_id_name = old_id.replace(source_prefix, destination_prefix, 1)
@@ -123,7 +127,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Move and optionally rename Fluent keys between files across language directories.")
     parser.add_argument("--base-dir", default=".", help="Base directory containing language folders.")
     parser.add_argument("--destination-base-dir", default=None, help="Destination base directory containing language folders.")
-    parser.add_argument("--strings-to-move-file", required=True, help="Path to the file with keys to move.")
+    parser.add_argument("--strings-to-move-file", default=None, help="Path to the file with keys to move.")
     parser.add_argument("--source-filename", default="common.ftl", help="Source FTL filename to process in each folder.")
     parser.add_argument("--destination-filename", default="new_component.ftl", help="Destination FTL filename where keys will be moved.")
     parser.add_argument("--rename", action="store_true", help="Enable renaming of keys based on file prefixes.")
