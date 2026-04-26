@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+#nullable disable
 
 namespace CommonPlugin.Converters
 {
@@ -8,7 +9,7 @@ namespace CommonPlugin.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is long seconds))
+            if (value is not long seconds)
                 return value;
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             if (seconds == 0)

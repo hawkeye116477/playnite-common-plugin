@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace CommonPlugin.Converters
 {
+#nullable disable
     public class NumericalSizeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

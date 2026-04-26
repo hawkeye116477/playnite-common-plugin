@@ -1,7 +1,6 @@
 ﻿using Linguini.Bundle;
 using Linguini.Bundle.Builder;
 using Linguini.Shared.Types.Bundle;
-using Playnite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Playnite;
 
 namespace CommonPlugin
 {
@@ -53,7 +53,7 @@ namespace CommonPlugin
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 baseDir = Environment.CurrentDirectory;
-                string configPath = Path.Combine(baseDir, "LocalizationPathsForDesignMode.txt");
+                var configPath = Path.Combine(baseDir, "LocalizationPathsForDesignMode.txt");
                 if (File.Exists(configPath))
                 {
                     localizationSources = File.ReadAllLines(configPath).Where(line => !string.IsNullOrWhiteSpace(line)).ToList();

@@ -19,7 +19,7 @@ namespace CommonPlugin
         public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(int), typeof(NumericInput));
         public static readonly DependencyProperty StepSizeProperty = DependencyProperty.Register(nameof(StepSize), typeof(int), typeof(NumericInput), new FrameworkPropertyMetadata(
         1));
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(NumericInput), new FrameworkPropertyMetadata(
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(string), typeof(NumericInput), new FrameworkPropertyMetadata(
         "", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public int MinValue
@@ -37,7 +37,7 @@ namespace CommonPlugin
             get => (int)GetValue(StepSizeProperty);
             set => SetValue(StepSizeProperty, value);
         }
-        private string lastGoodValue;
+        private string _lastGoodValue = "";
         public string Value
         {
             get => (string)GetValue(ValueProperty);
@@ -50,7 +50,7 @@ namespace CommonPlugin
             {
                 if (int.TryParse(NumericTxt.Text, out int number))
                 {
-                    lastGoodValue = NumericTxt.Text;
+                    _lastGoodValue = NumericTxt.Text;
                     if (number > MaxValue)
                     {
                         NumericTxt.Text = MaxValue.ToString();
@@ -62,7 +62,7 @@ namespace CommonPlugin
                 }
                 else
                 {
-                    NumericTxt.Text = lastGoodValue;
+                    NumericTxt.Text = _lastGoodValue;
                 }
                 NumericTxt.SelectionStart = NumericTxt.Text.Length;
             }
@@ -70,12 +70,12 @@ namespace CommonPlugin
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            lastGoodValue = !NumericTxt.Text.IsNullOrEmpty() ? NumericTxt.Text : MinValue.ToString();
+            _lastGoodValue = !NumericTxt.Text.IsNullOrEmpty() ? NumericTxt.Text : MinValue.ToString();
         }
 
-        public void Increment()
+        private void Increment()
         {
-            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(lastGoodValue);
+            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(_lastGoodValue);
             if (number < MaxValue)
             {
                 NumericTxt.Text = Convert.ToString(number + StepSize);
@@ -90,7 +90,7 @@ namespace CommonPlugin
 
         public void Decrement()
         {
-            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(lastGoodValue);
+            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(_lastGoodValue);
             if (number > MinValue)
             {
                 NumericTxt.Text = Convert.ToString(number - StepSize);

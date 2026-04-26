@@ -24,10 +24,4 @@
     <Compile Include="..\third_party\PlayniteExtensions\PlayniteRepo\source\playnite\Common\Extensions\StringExtensions.cs" Link="Shared\Playnite\StringExtensions.cs" />
     <Compile Include="..\third_party\PlayniteExtensions\PlayniteRepo\source\Playnite\Common\Xaml.cs" Link="Shared\Playnite\Xaml.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-  </ItemGroup>
 </Project>
