@@ -8,7 +8,7 @@ namespace CommonPlugin
     /// <summary>
     /// Interaction logic for NumericInput.xaml
     /// </summary>
-    public partial class NumericInput : UserControl
+    public partial class NumericInput
     {
         public NumericInput()
         {
@@ -37,7 +37,7 @@ namespace CommonPlugin
             get => (int)GetValue(StepSizeProperty);
             set => SetValue(StepSizeProperty, value);
         }
-        private string _lastGoodValue = "";
+        private string lastGoodValue = "";
         public string Value
         {
             get => (string)GetValue(ValueProperty);
@@ -50,7 +50,7 @@ namespace CommonPlugin
             {
                 if (int.TryParse(NumericTxt.Text, out int number))
                 {
-                    _lastGoodValue = NumericTxt.Text;
+                    lastGoodValue = NumericTxt.Text;
                     if (number > MaxValue)
                     {
                         NumericTxt.Text = MaxValue.ToString();
@@ -62,7 +62,7 @@ namespace CommonPlugin
                 }
                 else
                 {
-                    NumericTxt.Text = _lastGoodValue;
+                    NumericTxt.Text = lastGoodValue;
                 }
                 NumericTxt.SelectionStart = NumericTxt.Text.Length;
             }
@@ -70,12 +70,12 @@ namespace CommonPlugin
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _lastGoodValue = !NumericTxt.Text.IsNullOrEmpty() ? NumericTxt.Text : MinValue.ToString();
+            lastGoodValue = !NumericTxt.Text.IsNullOrEmpty() ? NumericTxt.Text : MinValue.ToString();
         }
 
         private void Increment()
         {
-            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(_lastGoodValue);
+            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(lastGoodValue);
             if (number < MaxValue)
             {
                 NumericTxt.Text = Convert.ToString(number + StepSize);
@@ -90,7 +90,7 @@ namespace CommonPlugin
 
         public void Decrement()
         {
-            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(_lastGoodValue);
+            int number = !NumericTxt.Text.IsNullOrEmpty() ? Convert.ToInt32(NumericTxt.Text) : Convert.ToInt32(lastGoodValue);
             if (number > MinValue)
             {
                 NumericTxt.Text = Convert.ToString(number - StepSize);

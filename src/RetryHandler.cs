@@ -9,16 +9,16 @@ namespace CommonPlugin
 {
     public class RetryHandler : DelegatingHandler
     {
-        private readonly int _maxRetries = 3;
-        private readonly int _baseDelayMs = 500;
-        private ILogger _logger = LogManager.GetLogger();
+        private readonly int maxRetries = 3;
+        private readonly int baseDelayMs = 500;
+        private ILogger logger = LogManager.GetLogger();
 
         public RetryHandler(HttpMessageHandler innerHandler) : base(innerHandler) { }
 
         public RetryHandler(HttpMessageHandler innerHandler, int maxRetries, int baseDelayMs) : base(innerHandler)
         {
-            _maxRetries = maxRetries;
-            _baseDelayMs = baseDelayMs;
+            this.maxRetries = maxRetries;
+            this.baseDelayMs = baseDelayMs;
         }
 
         private static async Task<HttpRequestMessage> CloneRequestAsync(HttpRequestMessage originalRequest)
@@ -56,7 +56,7 @@ namespace CommonPlugin
             CancellationToken token)
         {
             HttpResponseMessage? response = null;
-            for (var i = 0; i < _maxRetries; i++)
+            for (var i = 0; i < maxRetries; i++)
             {
                 try
                 {
@@ -71,10 +71,10 @@ namespace CommonPlugin
                 }
                 catch when (!token.IsCancellationRequested)
                 {
-                    if (i < _maxRetries - 1)
+                    if (i < maxRetries - 1)
                     {
-                        int delay = (int)(_baseDelayMs * Math.Pow(2, i));
-                        _logger.Debug($"Retrying request.... . Attempts left: {_maxRetries - i - 1}");
+                        int delay = (int)(baseDelayMs * Math.Pow(2, i));
+                        logger.Debug($"Retrying request.... . Attempts left: {maxRetries - i - 1}");
                         await Task.Delay(delay, token);
                     }
                     else
