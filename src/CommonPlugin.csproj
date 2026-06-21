@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="RelativePath.cs" />
     <Compile Include="RetryHandler.cs" />
-    <Compile Include="SplitOutsideQuotesExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonHelpers.cs" />
