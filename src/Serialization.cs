@@ -14,6 +14,7 @@ namespace CommonPlugin
             WriteIndented = true,
             IncludeFields = true,
             PropertyNameCaseInsensitive = true,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
         };
 
         public static T? FromJson<T>(string json) where T : class
@@ -46,7 +47,7 @@ namespace CommonPlugin
                 WriteIndented = formatted,
                 IncludeFields = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
             return JsonSerializer.Serialize(obj, options);
         }
