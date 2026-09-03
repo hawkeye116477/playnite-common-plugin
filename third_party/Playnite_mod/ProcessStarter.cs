@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using Playnite.Common;
+using Playnite;
 
-namespace Playnite;
+namespace PlayniteMod;
 
 public static class CmdLineTools
 {
@@ -15,7 +15,7 @@ public static class CmdLineTools
 // To preserve the same behavior as in P10. Also it's way more lenient to running things that are not actuall exes.
 public static class ProcessStarter
 {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(ProcessStarter));
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(ProcessStarter));
 
     public static Process? StartUrl(WebLink webLink)
     {
@@ -42,7 +42,7 @@ public static class ProcessStarter
                 return null;
         }
 
-        logger.Debug($"Opening URL: {url}");
+        Logger.Debug($"Opening URL: {url}");
         try
         {
             return Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
@@ -50,7 +50,7 @@ public static class ProcessStarter
         catch (Exception e)
         {
             // There are some crash report with 0x80004005 error when opening standard URL.
-            logger.Error(e, "Failed to open URL.");
+            Logger.Error(e, "Failed to open URL.");
             return Process.Start(CmdLineTools.Cmd, $"/C start {url}");
         }
     }
@@ -194,7 +194,7 @@ public static class ProcessStarter
             debugLog += $"\nVerb: {command.Verb} .";
         }
 
-        logger.Debug(debugLog);
+        Logger.Debug(debugLog);
     }
 
     public static Process? StartProcess(ProcessStartInfo processStartInfo, Dictionary<string, string>? environmentVariables = null)

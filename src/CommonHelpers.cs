@@ -1,14 +1,12 @@
-﻿using ByteSizeLib;
-using System;
-using System.Collections.Generic;
+﻿using System.Globalization;
 using System.IO;
-using System.Globalization;
-using Playnite;
-using System.Windows;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using Playnite.Common;
+using System.Windows;
+using System.Windows.Media;
+using ByteSizeLib;
+using Playnite;
+using PlayniteMod;
 
 namespace CommonPlugin
 {
@@ -24,16 +22,19 @@ namespace CommonPlugin
             {
                 size *= 8;
             }
+
             if (size < 0)
             {
                 logger.Warn($"Invalid size: {size}");
                 size = 0;
             }
+
             var finalSize = ByteSize.Parse($"{size} {unit}").ToBinaryString();
             if (toBits)
             {
                 finalSize = finalSize.Replace("B", "b");
             }
+
             return finalSize.Replace("i", "");
         }
 
@@ -44,6 +45,7 @@ namespace CommonPlugin
                 Logger.Warn($"Invalid size: {size}");
                 size = 0;
             }
+
             return ByteSize.Parse($"{size} {unit}").Bytes;
         }
 
@@ -56,10 +58,12 @@ namespace CommonPlugin
                 {
                     path = Path.Combine(PlayniteApi.UserDataDir, path);
                 }
+
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
                 }
+
                 var dataFile = Path.Combine(path, $"{fileName}.json");
                 File.WriteAllText(dataFile, strConf);
             }
@@ -73,7 +77,9 @@ namespace CommonPlugin
                 await using (File.Create(Path.Combine(folderPath, Path.GetRandomFileName()),
                                  1,
                                  FileOptions.DeleteOnClose))
-                { }
+                {
+                }
+
                 return true;
             }
             catch (UnauthorizedAccessException)
@@ -82,6 +88,7 @@ namespace CommonPlugin
                 {
                     await PlayniteApi.Dialogs.ShowErrorMessageAsync(LocalizationManager.Instance.GetString(permissionErrorString));
                 }
+
                 return false;
             }
             catch (Exception ex)
@@ -108,7 +115,8 @@ namespace CommonPlugin
 
         public static int CpuThreadsNumber => Environment.ProcessorCount;
 
-        public static string NormalizePath(string path) => Path.GetFullPath(new Uri(path).LocalPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        public static string NormalizePath(string path) => Path.GetFullPath(new Uri(path).LocalPath)
+                                                               .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
         public void LoadNeededResources(bool styles = true)
         {
@@ -121,6 +129,7 @@ namespace CommonPlugin
                 {
                     stylesName = "FullScreenStyles.xaml";
                 }
+
                 ResourceDictionary res = Xaml.FromFile<ResourceDictionary>(Path.Combine(resDir, stylesName));
                 dictionaries.Add(res);
             }
@@ -131,10 +140,10 @@ namespace CommonPlugin
             if (PlayniteApi.AppInfo.Mode == AppMode.Fullscreen)
             {
                 var thisWindow = Window.GetWindow(windowDependency);
-                thisWindow?.Background = (System.Windows.Media.Brush)Application.Current?.TryFindResource("ControlBackgroundBrush")!;
+                thisWindow?.Background = (Brush)Application.Current?.TryFindResource("ControlBackgroundBrush")!;
             }
         }
-        
+
         public static IEnumerable<string> SplitArguments(string commandLine)
         {
             var currentArgument = new StringBuilder();
@@ -159,6 +168,7 @@ namespace CommonPlugin
                             yield return currentArgument.ToString();
                             currentArgument.Clear();
                         }
+
                         break;
 
                     default:

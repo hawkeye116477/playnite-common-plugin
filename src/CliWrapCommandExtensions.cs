@@ -1,13 +1,11 @@
 ﻿using Playnite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CliWrap
 {
     internal static class CliWrapCommandExtensions
     {
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(CliWrapCommandExtensions));
+
         internal static Command AddCommandToLog(this Command command)
         {
             var allEnvironmentVariables = "";
@@ -39,6 +37,7 @@ namespace CliWrap
                     tokens[i + 1] = "***";
                 }
             }
+
             var safeArguments = string.Join(" ", tokens);
 
             Logger.Debug($"Executing command: {allEnvironmentVariables}{command.TargetFilePath} {safeArguments}");

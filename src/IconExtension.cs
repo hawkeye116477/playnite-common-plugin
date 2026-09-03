@@ -1,4 +1,4 @@
-using System;
+using System.Globalization;
 using System.Windows.Markup;
 
 namespace CommonPlugin;
@@ -22,18 +22,19 @@ public class IconExtension : MarkupExtension
 
     public string? Code { get; set; }
     public string? Text { get; set; }
-        
+
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
         var finalResult = "";
         if (Code != null)
         {
-            finalResult = char.ConvertFromUtf32(int.Parse(Code, System.Globalization.NumberStyles.HexNumber));
+            finalResult = char.ConvertFromUtf32(int.Parse(Code, NumberStyles.HexNumber));
             if (!string.IsNullOrEmpty(Text))
             {
                 finalResult += $" {Text}";
             }
         }
+
         return finalResult;
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using Playnite;
 
-namespace Playnite.Common
+namespace PlayniteMod
 {
     public class MonitorProcess(Process process)
     {

@@ -3,8 +3,9 @@ using System.Security;
 using System.Text.RegularExpressions;
 using ByteAether.Ulid;
 using Microsoft.Win32;
+using Playnite;
 
-namespace Playnite;
+namespace PlayniteMod;
 
 public class Program
 {

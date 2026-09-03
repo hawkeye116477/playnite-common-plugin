@@ -3,9 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Playnite.Common;
+using Playnite;
 
-namespace Playnite;
+namespace PlayniteMod;
 
 public enum FileSystemItem
 {
@@ -15,7 +15,7 @@ public enum FileSystemItem
 
 public static class FileSystem
 {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(FileSystem));
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FileSystem));
 
     public static void CreateDirectory(string path)
     {
@@ -156,7 +156,7 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't read from file, trying again. {path}");
+                Logger.Debug($"Can't read from file, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
@@ -176,7 +176,7 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't read from file, trying again. {path}");
+                Logger.Debug($"Can't read from file, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
@@ -196,7 +196,7 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't open write file stream, trying again. {path}");
+                Logger.Debug($"Can't open write file stream, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
@@ -216,7 +216,7 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't open read file stream, trying again. {path}");
+                Logger.Debug($"Can't open read file stream, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
@@ -251,7 +251,7 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't write to a file, trying again. {path}");
+                Logger.Debug($"Can't write to a file, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
@@ -277,13 +277,13 @@ public static class FileSystem
             }
             catch (IOException exc)
             {
-                logger.Debug($"Can't detele file, trying again. {path}");
+                Logger.Debug($"Can't detele file, trying again. {path}");
                 ioException = exc;
                 Task.Delay(500).Wait();
             }
             catch (UnauthorizedAccessException exc)
             {
-                logger.Error(exc, $"Can't detele file, UnauthorizedAccessException. {path}");
+                Logger.Error(exc, $"Can't detele file, UnauthorizedAccessException. {path}");
                 return;
             }
         }
@@ -388,7 +388,7 @@ public static class FileSystem
         }
         catch (Exception ex) when (!Debugger.IsAttached)
         {
-            logger.Error(ex, $"Error checking if path exists on different drive \"{originalPath}\"");
+            Logger.Error(ex, $"Error checking if path exists on different drive \"{originalPath}\"");
         }
 
         return false;

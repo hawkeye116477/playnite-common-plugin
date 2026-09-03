@@ -1,7 +1,7 @@
-﻿using System;
+﻿#nullable disable
+
 using System.Globalization;
 using System.Windows.Data;
-#nullable disable
 
 namespace CommonPlugin.Converters
 {
@@ -16,6 +16,7 @@ namespace CommonPlugin.Converters
             {
                 return "";
             }
+
             DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
             return dateTime.AddSeconds(seconds).ToLocalTime().ToString(formatInfo);
         }

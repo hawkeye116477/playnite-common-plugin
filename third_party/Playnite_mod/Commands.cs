@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Playnite;
 
-namespace Playnite.Commands
+namespace PlayniteMod.Commands
 {
     public static class Commands
     {

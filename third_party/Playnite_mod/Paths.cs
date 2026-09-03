@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Windows.Win32.Storage.FileSystem;
 using PInvokeWin32 = Windows.Win32.PInvoke;
 
-namespace Playnite.Common
+namespace PlayniteMod
 {
     public partial class Paths
     {
