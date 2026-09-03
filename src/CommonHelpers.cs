@@ -14,11 +14,12 @@ namespace CommonPlugin
 {
     public class CommonHelpers(IPlayniteApi playniteApi)
     {
+        private static readonly ILogger Logger = LogManager.GetLogger<CommonHelpers>();
         private IPlayniteApi PlayniteApi { get; set; } = playniteApi;
 
         public static string FormatSize(double size, string unit = "B", bool toBits = false)
         {
-            var logger = LogManager.GetLogger();
+            var logger = LogManager.GetLogger<CommonHelpers>();
             if (toBits)
             {
                 size *= 8;
@@ -38,10 +39,9 @@ namespace CommonPlugin
 
         public static double ToBytes(double size, string unit)
         {
-            var logger = LogManager.GetLogger();
             if (size < 0)
             {
-                logger.Warn($"Invalid size: {size}");
+                Logger.Warn($"Invalid size: {size}");
                 size = 0;
             }
             return ByteSize.Parse($"{size} {unit}").Bytes;
@@ -86,8 +86,7 @@ namespace CommonPlugin
             }
             catch (Exception ex)
             {
-                var logger = LogManager.GetLogger();
-                logger.Error($"An error occured during checking if directory {folderPath} is writable: {ex.Message}");
+                Logger.Error($"An error occured during checking if directory {folderPath} is writable: {ex.Message}");
                 return true;
             }
         }

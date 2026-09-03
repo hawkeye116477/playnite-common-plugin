@@ -15,7 +15,7 @@ namespace CommonPlugin
 {
     public class LocalizationManager
     {
-        private readonly ILogger logger = LogManager.GetLogger();
+        private readonly ILogger logger = LogManager.GetLogger<LocalizationManager>();
         public static LocalizationManager Instance { get; } = new LocalizationManager();
 
         private FluentBundle bundle = null!;

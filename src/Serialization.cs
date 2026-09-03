@@ -7,7 +7,7 @@ namespace CommonPlugin
 {
     public static class Serialization
     {
-        private static readonly ILogger Logger = LogManager.GetLogger();
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(Serialization));
         private static readonly JsonSerializerOptions JsonSerializerSettings = new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -47,7 +47,7 @@ namespace CommonPlugin
                 WriteIndented = formatted,
                 IncludeFields = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
             return JsonSerializer.Serialize(obj, options);
         }

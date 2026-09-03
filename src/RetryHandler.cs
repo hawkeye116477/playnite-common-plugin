@@ -11,7 +11,7 @@ namespace CommonPlugin
     {
         private readonly int maxRetries = 3;
         private readonly int baseDelayMs = 500;
-        private ILogger logger = LogManager.GetLogger();
+        private ILogger logger = LogManager.GetLogger<RetryHandler>();
 
         public RetryHandler(HttpMessageHandler innerHandler) : base(innerHandler) { }
 
