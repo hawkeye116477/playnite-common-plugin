@@ -1,2 +1,1 @@
-common-finish-installation
-common-no-finish-needed
+common-downloader-preferred-cdn
