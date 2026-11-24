@@ -1,1 +1,5 @@
-common-downloader-preferred-cdn
+common-launcher-custom-path 
+common-launcher-version
+common-launcher-binary
+common-launcher-update-policy
+common-launcher-not-installed
